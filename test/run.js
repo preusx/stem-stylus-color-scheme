@@ -6,10 +6,9 @@ var testRunnerConfig = {
     },
     import: [
       '../bower_components/stem-stylus-extensions',
-      '../bower_components/stem-stylus-utils',
       '../index'
       ]
   }
-}
+};
 
-require('stylus-test-runner')(testRunnerConfig)
+require('stylus-test-runner')(testRunnerConfig);
