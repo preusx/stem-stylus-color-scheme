@@ -1,83 +1,31 @@
 @require 'palettes'
 
-/*
- * Variables
- * ======================================================================== */
-
-stack_storage('__stem__color-scheme-settings', {
-        palette: ColorPalettes
-
-        color: {
-            black:       ColorPalettes.clrs.black
-            white:       ColorPalettes.clrs.white
-
-            blue:        ColorPalettes.material.blue
-            green:       ColorPalettes.material.green
-            red:         ColorPalettes.material.red
-            yellow:      ColorPalettes.material.yellow
-
-            netural:     ColorPalettes.clrs.silver
-            primary:     ColorPalettes.material.blue_grey
-            accent:      ColorPalettes.material.light_blue
-            // secondary:   ColorPalettes.
-            // ternary:     ColorPalettes.
-            // quarternary: ColorPalettes.
-
-            dtext:       ColorPalettes.clrs.black
-            ltext:       ColorPalettes.clrs.white
-            highlight:   ColorPalettes.material.yellow
-        }
-
-        ratio: {
-            secondary: .70
-            disabled:  .30
-            divider:   .12
-            relief:    .05
-        }
-
-        factor: {
-            darker:  .05
-            lighten: .05
-        }
-    }, default:true)
-
-
-CS = stack_storage('__stem__color-scheme-settings')
-
-
 /**
  * Mixins
  * ======================================================================== */
 
-cs-settings(data=false, base=false, fallback=false, dafault=false)
-    stack_storage('__stem__color-scheme-settings', data, base, fallback, dafault)
-    temp = stack_storage('__stem__color-scheme-settings')
-
-    reassign('CS', temp)
-
-    return temp
-
-
-cs_color(color, ratio=0, ratio2=0)
+cs(color, ratio=0, ratio2=0)
     if ratio2
-        return cs_color(cs_color(color, ratio), ratio2)
+        return cs(cs(color, ratio), ratio2)
 
-    if is_list(color)
+    if is-list(color)
         ratio = color[1]
         color = color[0]
 
-    if !is_color(color)
+    if !is-color(color)
         color = CS.color[color]
 
-    if is_unit(ratio)
+    if is-unit(ratio) && !(ratio > 0 && ratio < 1)
         if ratio == 0
             return rgba(color, 1)
         else
-            ratio = (ratio > 0 ? CS.factor.darker : CS.factor.lighten) * to_raw_percent(ratio)
+            ratio = (ratio > 0 ? CS.factor.darker : CS.factor.lighten) *\
+                to-raw-pct(ratio ? ratio : 0)
 
             return darken(color, ratio * 100%)
     else
-        $alpha = to_raw_percent(alpha(color)) * CS.ratio[ratio]
+        ratio = is-unit(ratio) ? ratio : CS.ratio[ratio]
+        $alpha = to-raw-pct(alpha(color)) * ratio
 
         return rgba(color, $alpha)
 
@@ -85,10 +33,10 @@ cs_color(color, ratio=0, ratio2=0)
 /**
  * Depenfing on provided background-color makes text color dark or light.
  */
-cs_color_fit(dark=CS.color.dtext, light=CS.color.ltext, bg=@background-color)
-    dark  = cs_color(dark)
-    light = cs_color(light)
-    bg    = cs_color(bg)
+cs-fit(dark=CS.color.dtext, light=CS.color.ltext, bg=@background-color)
+    dark  = cs(dark)
+    light = cs(light)
+    bg    = cs(bg)
 
     if contrast(bg, light).ratio > contrast(bg, dark).ratio
         return light

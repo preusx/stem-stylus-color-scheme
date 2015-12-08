@@ -1,13 +1,13 @@
 // @describe Color Scheme
 
-// @it `cs_color`: Getting color and its alphas
+// @it `cs`: Getting color and its alphas
 
 body
-    color cs_color('primary')
-    color cs_color('primary', secondary)
-    color cs_color('primary', disabled)
-    color cs_color('primary', divider)
-    color cs_color('primary', relief)
+    color cs('primary')
+    color cs('primary', secondary)
+    color cs('primary', disabled)
+    color cs('primary', divider)
+    color cs('primary', relief)
 
 // @expects
 
@@ -19,11 +19,11 @@ body{
     color:rgba(96,125,139,.05)}
 
 
-// @it `cs_color`: Getting color darkening variations
+// @it `cs`: Getting color darkening variations
 
 body
     for d in (-2 -1 0 1 2 3)
-        color cs_color('primary', d)
+        color cs('primary', d)
 
 // @expects
 body{color:#6d8b9a;
@@ -34,32 +34,32 @@ body{color:#6d8b9a;
     color:#526a76}
 
 
-// @it `cs_color`: Ratio 2 usage
+// @it `cs`: Ratio 2 usage
 
 body
-    color cs_color(cs_color('primary', 2), divider)
-    color cs_color('primary', 2, divider)
+    color cs(cs('primary', 2), divider)
+    color cs('primary', 2, divider)
 
 // @expects
 body{color:rgba(86,112,125,.12);
     color:rgba(86,112,125,.12)}
 
 
-// @it `cs_color_fit`: More contrast font are applied
+// @it `cs-fit`: More contrast font are applied
 
 body
-    color cs_color_fit('primary', bg:#000)
+    color cs-fit('primary', bg:#000)
 
 body
-    color cs_color_fit('primary', #ff0, bg:#000)
+    color cs-fit('primary', #ff0, #000)
 
 body
     background-color #444
-    color cs_color_fit('primary', #ff0)
+    color cs-fit('primary', #ff0)
 
 body
     background-color #fff
-    color cs_color_fit('primary', 'yellow')
+    color cs-fit('primary', 'yellow')
 
 // @expects
 body{color:#fff}
